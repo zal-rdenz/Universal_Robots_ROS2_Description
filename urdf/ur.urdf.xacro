@@ -176,7 +176,7 @@
   <joint name="tool_to_paintgun_base" type="fixed">
     <parent link="tool0"/>
     <child link="paintgun_base"/>
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 3.14159265359"/>
   </joint>
 
   <link name="paintgun_handle">
