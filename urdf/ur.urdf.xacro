@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="robot">
    <!-- robot name parameter -->
    <xacro:arg name="name" default="ur"/>
    <!-- import main macro -->
@@ -7,7 +7,7 @@
 
    <!-- possible 'ur_type' values: ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e, ur20, ur30 -->
    <!-- the default value should raise an error in case this was called without defining the type -->
-   <xacro:arg name="ur_type" default="ur5x"/>
+   <xacro:arg name="ur_type" default="ur10e"/>
 
    <!-- parameters -->
    <xacro:arg name="tf_prefix" default="" />
@@ -123,7 +123,8 @@
      script_sender_port="$(arg script_sender_port)"
      trajectory_port="$(arg trajectory_port)"
      >
-     <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
+     <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+     <!-- <origin xyz="0.2 1.1471 0.88516" rpy="0 0 0" />  -->
    </xacro:ur_robot>
 
    <xacro:if value="$(arg sim_gazebo)">
@@ -148,5 +149,111 @@
       </plugin>
     </gazebo>
   </xacro:if>
+
+  <link name="paintgun_base">
+    <visual>
+         <origin xyz="0.0 0.0455 0.06" rpy="0.0 0.0 0.0"/>
+         <geometry>
+           <mesh filename="package://ur_description/meshes/paintgun/paintgun_base.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+         <material name="blue">
+           <color rgba="0 0 1.0 1.0"/>
+         </material>
+       </visual>
+       <collision>
+         <origin xyz="0.0 0.0455 0.06" rpy="0.0 0.0 0.0"/>
+         <geometry>
+           <mesh filename="package://ur_description/meshes/paintgun/paintgun_base.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+       </collision>
+       <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="1.0"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+  </link>
+
+  <joint name="tool_to_paintgun_base" type="fixed">
+    <parent link="tool0"/>
+    <child link="paintgun_base"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="paintgun_handle">
+    <visual>
+    <origin xyz="0.0 0.0455 0.06" rpy="0.0 0.0 0.0"/>
+         <geometry>
+           <mesh filename="package://ur_description/meshes/paintgun/paintgun_handle.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+         <material name="blue">
+           <color rgba="0 0 1.0 1.0"/>
+         </material>
+       </visual>
+       <collision>
+    <origin xyz="0.0 0.0455 0.06" rpy="0.0 0.0 0.0"/>
+         <geometry>
+           <mesh filename="package://ur_description/meshes/paintgun/paintgun_handle.stl" scale="0.001 0.001 0.001"/>
+         </geometry>
+       </collision>
+       <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="1.0"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+  </link>
+
+  <joint name="paintgun_base_to_paintgun_handle" type="fixed">
+    <parent link="paintgun_base"/>
+    <child link="paintgun_handle"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="paintgun_marker">
+  </link>
+
+  <joint name="paintgun_handle_to_marker" type="fixed">
+    <parent link="paintgun_handle"/>
+    <child link="paintgun_marker"/>
+    <origin xyz="0.0 0.0485 0.04" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="paintgun_tcp">
+  </link>
+
+  <joint name="paintgun_handle_to_tcp" type="fixed">
+    <parent link="paintgun_handle"/>
+    <child link="paintgun_tcp"/>
+    <origin xyz="0.0 0.0295 0.170" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="ur_table">
+  <visual>
+    <origin xyz="1.19867 1.044 0.223" rpy="0.0 0.0 -1.57079632679"/>
+         <geometry>
+           <mesh filename="package://ur_description/meshes/table/ur_table.stl"/>
+         </geometry>
+         <material name="green">
+           <color rgba="0 1.0 0 1.0"/>
+         </material>
+       </visual>
+       <collision>
+    <origin xyz="1.19867 1.044 0.223" rpy="0.0 0.0 -1.57079632679"/>
+         <geometry>
+           <mesh filename="package://ur_description/meshes/table/ur_table.stl"/>
+         </geometry>
+       </collision>
+       <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="1.0"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+  </link>
+
+  <joint name="world_to_ur_table" type="fixed">
+    <parent link="world"/>
+    <child link="ur_table"/>
+    <origin xyz="-0.2 -1.1471 -0.88516" rpy="0.0 0.0 0.0"/>
+  </joint>
+  
 
 </robot>
