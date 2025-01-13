@@ -217,6 +217,15 @@
     <origin xyz="0.0 0.0485 0.04" rpy="0.0 0.0 0.0"/>
   </joint>
 
+  <link name="aruco_base">
+  </link>
+
+  <joint name="world_to_aruco_base" type="fixed">
+    <parent link="world"/>
+    <child link="aruco_base"/>
+    <origin xyz="-0.05190672725439072 -0.8006927967071533 0.013048146851360798" rpy="-0.0316959 -0.028009 0.0328317"/>
+  </joint>
+
   <link name="paintgun_tcp">
   </link>
 
@@ -252,7 +261,7 @@
   <joint name="world_to_ur_table" type="fixed">
     <parent link="world"/>
     <child link="ur_table"/>
-    <origin xyz="-0.2 -1.1471 -0.88516" rpy="0.0 0.0 0.0"/>
+    <origin xyz="-0.135 -1.2121 -0.88516" rpy="0.0 0.0 0.0"/>
   </joint>
   
 
