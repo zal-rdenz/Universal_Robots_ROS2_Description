@@ -208,13 +208,22 @@
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
   </joint>
 
+  <link name="paintgun_marker_base">
+  </link>
+
+  <joint name="paintgun_handle_to_marker_base" type="fixed">
+    <parent link="paintgun_handle"/>
+    <child link="paintgun_marker_base"/>
+    <origin xyz="0.0 0.0485 0.04" rpy="0.0 0.0 0.0"/>
+  </joint>
+
   <link name="paintgun_marker">
   </link>
 
   <joint name="paintgun_handle_to_marker" type="fixed">
-    <parent link="paintgun_handle"/>
+    <parent link="paintgun_marker_base"/>
     <child link="paintgun_marker"/>
-    <origin xyz="0.0 0.0485 0.04" rpy="0.0 0.0 0.0"/>
+    <origin xyz="0.0 0.0 0.0" rpy="-1.57079632679 0.0 0.0"/>
   </joint>
 
   <link name="aruco_base">
